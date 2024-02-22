@@ -30,25 +30,6 @@ This document is licensed under the 3-clause BSD license.
 
 OP_CAT pops two elements of the stack, concatenates them together in stack order and pushes the resultant element onto the stack. Given the stack [x1,x2], where x2 is at the top of the stack, OP_CAT will push x1||x2 onto the stack. By '||' we denote concatenation.
 
-Implementation
-<pre>
-case OP_CAT:
-{
-    if (stack.size() < 2)
-        return set_error(serror, SCRIPT_ERR_INVALID_STACK_OPERATION);
-    valtype& vch1 = stacktop(-2);
-    valtype& vch2 = stacktop(-1);
-    if (vch1.size() + vch2.size() > MAX_SCRIPT_ELEMENT_SIZE)
-        return set_error(serror, SCRIPT_ERR_INVALID_STACK_OPERATION);
-    vch1.insert(vch1.end(), vch2.begin(), vch2.end());
-    stack.pop_back();
-}
-break;
-</pre>
-This implementation is inspired by the original implementation of OP_CAT as shown below. Alternative implementation of OP_CAT can be found in Elements <ref>Roose S., Elements Project, "Re-enable several disabled opcodes", 2019, https://github.com/ElementsProject/elements/commit/13e1103abe3e328c5a4e2039b51a546f8be6c60a#diff-a0337ffd7259e8c7c9a7786d6dbd420c80abfa1afdb34ebae3261109d9ae3c19R740-R759</ref>.
-
-The value of MAX_SCRIPT_ELEMENT_SIZE is 520 Bytes
-
 ==Motivation==
 
 Bitcoin tapscript lacks a general purpose way of combining objects on the stack restricting the expressiveness and power of tapscript. For instance this prevents among many other things the ability to construct and evaluate merkle trees and other hashed data structures in tapscript. OP_CAT by adding a general purpose way to concatenate stack values would overcome this limitation and greatly increase the functionality of tapscript.
@@ -71,9 +52,24 @@ For instance a script which pushed an 1 Byte value on the stack then repeated th
 
 ==Reference implementation==
 
-==Notes==
+<pre>
+case OP_CAT:
+{
+    if (stack.size() < 2)
+        return set_error(serror, SCRIPT_ERR_INVALID_STACK_OPERATION);
+    valtype& vch1 = stacktop(-2);
+    valtype& vch2 = stacktop(-1);
+    if (vch1.size() + vch2.size() > MAX_SCRIPT_ELEMENT_SIZE)
+        return set_error(serror, SCRIPT_ERR_INVALID_STACK_OPERATION);
+    vch1.insert(vch1.end(), vch2.begin(), vch2.end());
+    stack.pop_back();
+}
+break;
+</pre>
 
-OP_CAT as it existed in the Bitcoin codebase prior to the commit "misc changes" 4bd188c<ref>S. Nakamoto, "misc changes", Aug 25 2010, https://github.com/bitcoin/bitcoin/commit/4bd188c4383d6e614e18f79dc337fbabe8464c82#diff-27496895958ca30c47bbb873299a2ad7a7ea1003a9faa96b317250e3b7aa1fefL381</ref> which disabled it.
+The value of MAX_SCRIPT_ELEMENT_SIZE is 520 Bytes.
+
+This implementation is inspired by the original implementation of OP_CAT as it existed in the Bitcoin codebase prior to the commit "misc changes" 4bd188c<ref>S. Nakamoto, "misc changes", Aug 25 2010, https://github.com/bitcoin/bitcoin/commit/4bd188c4383d6e614e18f79dc337fbabe8464c82#diff-27496895958ca30c47bbb873299a2ad7a7ea1003a9faa96b317250e3b7aa1fefL381</ref> which disabled it:
 
 <pre>
   // (x1 x2 -- out)

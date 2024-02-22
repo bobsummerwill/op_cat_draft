@@ -47,6 +47,25 @@ OP_CAT aims to expands the toolbox of the tapscript developer with a simple, mod
 The opcode OP_CAT was available in early versions of Bitcoin. However OP_CAT was removed because it enabled the construction of a script for which an evaluation could have memory usage exponential in the size of the script.
 For instance a script which pushed an 1 Byte value on the stack then repeated the opcodes OP_DUP, OP_CAT 40 times would result in a stack value whose size was greater than 1 Terabyte. This is no longer an issue because tapscript enforces a maximum stack element size of 520 Bytes.
 
+[bitcoin-dev] Proposed BIP for OP_CAT, Ethan Heilman post to bitcoin-dev mailing list:
+https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2023-October/022049.html
+
+"Hi everyone,
+
+We've posted a draft BIP to propose enabling OP_CAT as Tapscript opcode.
+https://github.com/EthanHeilman/op_cat_draft/blob/main/cat.mediawiki
+
+OP_CAT was available in early versions of Bitcoin. It was disabled as
+it allowed the construction of a script whose evaluation could create
+stack elements exponential in the size of the script. This is no
+longer an issue in the current age as tapscript enforces a maximum
+stack element size of 520 Bytes.
+
+Thanks,
+Ethan"
+
+TODO - Add example of the OP_DUP sequence of events which was the previous issue.
+
 ==Rationale==
 
 ==Backwards compatibility==

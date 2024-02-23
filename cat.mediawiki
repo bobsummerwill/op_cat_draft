@@ -14,14 +14,10 @@
 
 ==Abstract==
 
-This BIP defines OP_CAT a new tapscript opcode which allows the concatenation of two values on the stack. This opcode would be activated via a soft fork by redefining the opcode OP_SUCCESS126.
+BIP-2 says:
+"A short (~200 word) description of the technical issue being addressed."
 
-When evaluated the OP_CAT instruction:
-# Pops the top two values off the stack,
-# concatenate the popped values together,
-# and then pushes the concatenated value on the top of the stack.
-
-OP_CAT fails if there are less than two values on the stack or if a concatenated value would have a combined size of greater than the maximum script element size of 520 Bytes.
+This BIP defines OP_CAT, a new tapscript opcode which allows the concatenation of two values on the stack.
 
 ==Copyright==
 
@@ -29,9 +25,23 @@ This document is licensed under the 3-clause BSD license.
 
 ==Specification==
 
-OP_CAT pops two elements of the stack, concatenates them together in stack order and pushes the resultant element onto the stack. Given the stack [x1,x2], where x2 is at the top of the stack, OP_CAT will push x1||x2 onto the stack. By '||' we denote concatenation.
+BIP-2 says:
+"Specification -- The technical specification should describe the syntax and semantics of any new feature. The specification should be detailed enough to allow competing, interoperable implementations for any of the current Bitcoin platforms."
+
+OP_CAT pops two elements of the stack, concatenates them together in stack order and pushes the resultant
+element onto the stack. Given the stack [x1,x2], where x2 is at the top of the stack, OP_CAT will
+push x1||x2 onto the stack. By '||' we denote concatenation.
+
+OP_CAT fails if there are less than two values on the stack or if a concatenated value would have a combined
+size of greater than the maximum script element size of 520 Bytes.
+
+This opcode would be activated via a soft fork by redefining the opcode OP_SUCCESS126.
+
 
 ==Motivation==
+
+BIP-2 says:
+"The motivation is critical for BIPs that want to change the Bitcoin protocol. It should clearly explain why the existing protocol is inadequate to address the problem that the BIP solves."
 
 Bitcoin tapscript lacks a general purpose way of combining objects on the stack restricting the expressiveness and power of tapscript. For instance this prevents among many other things the ability to construct and evaluate merkle trees and other hashed data structures in tapscript. OP_CAT by adding a general purpose way to concatenate stack values would overcome this limitation and greatly increase the functionality of tapscript.
 
@@ -47,28 +57,19 @@ OP_CAT aims to expands the toolbox of the tapscript developer with a simple, mod
 The opcode OP_CAT was available in early versions of Bitcoin. However OP_CAT was removed because it enabled the construction of a script for which an evaluation could have memory usage exponential in the size of the script.
 For instance a script which pushed an 1 Byte value on the stack then repeated the opcodes OP_DUP, OP_CAT 40 times would result in a stack value whose size was greater than 1 Terabyte. This is no longer an issue because tapscript enforces a maximum stack element size of 520 Bytes.
 
-[bitcoin-dev] Proposed BIP for OP_CAT, Ethan Heilman post to bitcoin-dev mailing list:
-https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2023-October/022049.html
-
-"Hi everyone,
-
-We've posted a draft BIP to propose enabling OP_CAT as Tapscript opcode.
-https://github.com/EthanHeilman/op_cat_draft/blob/main/cat.mediawiki
-
-OP_CAT was available in early versions of Bitcoin. It was disabled as
-it allowed the construction of a script whose evaluation could create
-stack elements exponential in the size of the script. This is no
-longer an issue in the current age as tapscript enforces a maximum
-stack element size of 520 Bytes.
-
-Thanks,
-Ethan"
-
-TODO - Add example of the OP_DUP sequence of events which was the previous issue.
-
 ==Rationale==
 
+BIP-2 says:
+"The rationale fleshes out the specification by describing what motivated the design and why particular design decisions were made. It should describe alternate designs that were considered and related work. The rationale should provide evidence of consensus within the community and discuss important objections or concerns raised during discussion.
+
+TODO
+
 ==Backwards compatibility==
+
+BIP-2 says:
+"All BIPs that introduce backwards incompatibilities must include a section describing these incompatibilities and their severity. The BIP must explain how the author proposes to deal with these incompatibilities."
+
+TODO
 
 ==Reference implementation==
 
@@ -109,9 +110,7 @@ This implementation is inspired by the original implementation of OP_CAT as it e
 
 See https://github.com/bitcoin/bitcoin/blob/01cd2fdaf3ac6071304ceb80fb7436ac02b1059e/script.cpp#L381.
 
-For further reference, here is the OP_CAT implementation from Blockstream Elements:
-
-"This is the integration and staging tree for the Elements blockchain platform, a collection of feature experiments and extensions to the Bitcoin protocol. This platform enables anyone to build their own businesses or networks pegged to Bitcoin as a sidechain or run as a standalone blockchain with arbitrary asset tokens."
+For further reference, here is the OP_CAT implementation from Elements which is used in production for the Liquid sidechain since 2019:
 
 <pre>
   case OP_CAT:
@@ -137,6 +136,9 @@ For further reference, here is the OP_CAT implementation from Blockstream Elemen
 </pre>
 
 See https://github.com/ElementsProject/elements/blob/2d298f7e3f76bc6c19d9550af4fd1ef48cf0b2a6/src/script/interpreter.cpp#L1043.
+
+OP_CAT was renabled in Elements in January 2019 in the following commit:
+https://github.com/ElementsProject/elements/commit/13e1103abe3e328c5a4e2039b51a546f8be6c60a
 
 
 ==Acknowledgements==

@@ -135,9 +135,9 @@ For further reference, here is the OP_CAT implementation from Elements which is 
   break;
 </pre>
 
-See interpreter.cpp @ #2d298f<ref>https://github.com/ElementsProject/elements/blob/2d298f7e3f76bc6c19d9550af4fd1ef48cf0b2a6/src/script/interpreter.cpp#L1043</ref>.
+See [https://github.com/ElementsProject/elements/blob/2d298f7e3f76bc6c19d9550af4fd1ef48cf0b2a6/src/script/interpreter.cpp#L1043 interpreter.cpp @ #2d298f].
 
-OP_CAT was renabled in Elements in January 2019 in the #13e1103 commit<ref>https://github.com/ElementsProject/elements/commit/13e1103abe3e328c5a4e2039b51a546f8be6c60a</ref>
+OP_CAT was renabled in Elements in January 2019 in the [https://github.com/ElementsProject/elements/commit/13e1103abe3e328c5a4e2039b51a546f8be6c60a #13e1103 commit].
 
 
 ==Acknowledgements==
